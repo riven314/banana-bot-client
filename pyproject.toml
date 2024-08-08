@@ -3,6 +3,7 @@ name = "banana-bot-client"
 version = "0.1.0"
 description = "Automate Telegram game Banana Bot using Python"
 authors = ["Alex Lau <alexlauwh@gmail.com>"]
+packages = [{ include = "banana_bot_client" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -49,5 +50,5 @@ module = "retry.*"
 ignore_missing_imports = true
 
 [build-system]
-requires = ["poetry-core=1.2.2"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
