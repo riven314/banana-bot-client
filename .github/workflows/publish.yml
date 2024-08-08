@@ -21,8 +21,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install poetry
-          poetry self add "poetry-dynamic-versioning[plugin]"
           poetry install
+      - name: Add Dynamic Versioning Plugin
+        run: |
+          poetry self add poetry-dynamic-versioning[plugin]
       - name: Build a binary wheel and a source tarball
         run: poetry build
       - name: Store the distribution packages
