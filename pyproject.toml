@@ -1,5 +1,6 @@
 [tool.poetry]
 name = "banana-bot-client"
+readme = "README.md"
 version = "0.1.0"
 description = "Automate Telegram game Banana Bot using Python"
 authors = ["Alex Lau <alexlauwh@gmail.com>"]
