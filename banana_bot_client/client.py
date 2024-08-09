@@ -54,9 +54,9 @@ class BananaBotClient:
             timeout=20,
             **kwargs,
         )
-        # TODO: translate code to exception
         response.raise_for_status()
         response_json = response.json()
+        # TODO: expend the error handling
         if response_json["code"] != 0 or response_json["msg"] != "Success":
             if response_json["code"] == 4404:
                 raise ClaimIncompleteQuestError(response_json["msg"])
@@ -72,13 +72,19 @@ class BananaBotClient:
         return LotteryInfoModel(**data)
 
     def do_lottery(self, headers=None, proxies=None) -> DoLotteryModel:
+        """
+        claim a banana once the countdown is done
+        """
         data = self._make_request(
             "POST", DO_LOTTERY_API, headers=headers, proxies=proxies
         )
         return DoLotteryModel(**data)
 
     def claim_lottery(self, headers=None, proxies=None) -> None:
-        data = self._make_request(
+        """
+        harvest and reveal a banana
+        """
+        _ = self._make_request(
             "POST",
             CLAIM_LOTTERY_API,
             headers=headers,
@@ -94,7 +100,10 @@ class BananaBotClient:
         return QuestListModel(**data)
 
     def achieve_quest(self, quest_id: int, headers=None, proxies=None) -> None:
-        data = self._make_request(
+        """
+        complete a request
+        """
+        _ = self._make_request(
             "POST",
             ACHIEVE_QUEST_API,
             headers=headers,
@@ -104,6 +113,9 @@ class BananaBotClient:
         return None  # Since the response data is None, just return None
 
     def claim_quest(self, quest_id: int, headers=None, proxies=None) -> ClaimQuestModel:
+        """
+        claim rewards for a completed quest
+        """
         data = self._make_request(
             "POST",
             CLAIM_QUEST_API,
@@ -114,6 +126,9 @@ class BananaBotClient:
         return ClaimQuestModel(**data)
 
     def claim_quest_lottery(self, headers=None, proxies=None) -> None:
+        """
+        claim additional banana for every completed 3 quests
+        """
         _ = self._make_request(
             "POST", CLAIM_QUEST_LOTTERY_API, headers=headers, proxies=proxies
         )
