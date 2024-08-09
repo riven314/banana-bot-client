@@ -8,6 +8,7 @@ from .constants import (
     CLAIM_QUEST_LOTTERY_API,
     DO_CLICK_API,
     DO_LOTTERY_API,
+    EQUIP_BANANA_API,
     LOTTERY_INFO_API,
     QUEST_LIST_API,
     USER_INFO_API,
@@ -139,3 +140,13 @@ class BananaBotClient:
             "GET", BANANA_LIST_API, headers=headers, proxies=proxies
         )
         return BananaListModel(**data)
+
+    def equip_banana(self, banana_id: int, headers=None, proxies=None) -> None:
+        _ = self._make_request(
+            "POST",
+            EQUIP_BANANA_API,
+            headers=headers,
+            proxies=proxies,
+            json={"bananaId": banana_id},
+        )
+        return None

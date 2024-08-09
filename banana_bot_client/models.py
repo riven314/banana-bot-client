@@ -19,7 +19,7 @@ class DoLotteryModel(BaseModel):
     ripeness_sub_level: int
     daily_peel_limit: int
     sell_exchange_peel: int
-    sell_exchange_usdt: int
+    sell_exchange_usdt: float
     exclusive_icon_url: Optional[str]
     count: int
 
@@ -85,7 +85,7 @@ class EquipBananaModel(BaseModel):
     ripeness_sub_level: int
     daily_peel_limit: int
     sell_exchange_peel: int
-    sell_exchange_usdt: int
+    sell_exchange_usdt: float
     exclusive_icon_url: Optional[str]
     count: int
 
