@@ -1,74 +1,99 @@
 import pytest
+import requests_mock
 
-from func.client import BananaAPIClient
+from banana_bot_client.client import BananaBotClient
+from banana_bot_client.constants import (
+    CLAIM_QUEST_API,
+    DO_CLICK_API,
+    DO_LOTTERY_API,
+    LOTTERY_INFO_API,
+    QUEST_LIST_API,
+    USER_INFO_API,
+)
+from banana_bot_client.models import (
+    ClaimQuestModel,
+    ClickRewardModel,
+    DoLotteryModel,
+    LotteryInfoModel,
+    QuestListModel,
+    UserInfoModel,
+)
+
+from .data import (
+    sample_claim_quest_response,
+    sample_click_response,
+    sample_do_lottery_response,
+    sample_get_lottery_info_response,
+    sample_get_quest_list_response,
+    sample_get_user_info_response,
+)
 
 
+# Use requests_mock to mock HTTP requests
 @pytest.fixture
-def api_client(monkeypatch):
-    def mock_get_tokens():
-        return [{"token": "valid_token"}]
+def client():
+    return BananaBotClient(token="test-token")
 
-    monkeypatch.setattr(
-        "func.banana_api_client.BananaAPIClient._get_tokens", mock_get_tokens
+
+def test_get_lottery_info(client, requests_mock):
+    requests_mock.get(
+        LOTTERY_INFO_API,
+        json={"code": 0, "msg": "Success", "data": sample_get_lottery_info_response},
     )
-    return BananaAPIClient()
+    response = client.get_lottery_info()
+    assert isinstance(response, LotteryInfoModel)
+    assert response.remain_lottery_count == 1
 
 
-def test_claim_lottery(api_client, monkeypatch):
-    def mock_validate_tokens():
-        return [{"token": "valid_token"}]
-
-    def mock_get(url, headers):
-        class MockResponse:
-            @staticmethod
-            def json():
-                return {"data": {"remain_lottery_count": 2, "countdown_end": True}}
-
-            def raise_for_status(self):
-                pass
-
-        return MockResponse()
-
-    def mock_post(url, json=None, headers=None):
-        class MockResponse:
-            def raise_for_status(self):
-                pass
-
-        return MockResponse()
-
-    monkeypatch.setattr(
-        "func.banana_api_client.BananaAPIClient._validate_tokens", mock_validate_tokens
+def test_do_lottery(client, requests_mock):
+    requests_mock.post(
+        DO_LOTTERY_API,
+        json={"code": 0, "msg": "Success", "data": sample_do_lottery_response},
     )
-    monkeypatch.setattr("requests.get", mock_get)
-    monkeypatch.setattr("requests.post", mock_post)
+    response = client.do_lottery()
+    assert isinstance(response, DoLotteryModel)
+    assert response.banana_id == 26
+    assert response.name == "Nonana"
 
-    api_client.claim_lottery()
-    # Assert statements can be added based on console outputs or further logic
+
+def test_get_quest_list(client, requests_mock):
+    requests_mock.get(
+        QUEST_LIST_API,
+        json={"code": 0, "msg": "Success", "data": sample_get_quest_list_response},
+    )
+    response = client.get_quest_list()
+    assert isinstance(response, QuestListModel)
+    assert len(response.quest_list) == 1
+    assert response.quest_list[0].quest_id == 30
 
 
-def test_claim_mission(api_client, monkeypatch):
-    def mock_validate_tokens():
-        return [{"token": "valid_token"}]
+def test_claim_quest(client, requests_mock):
+    requests_mock.post(
+        CLAIM_QUEST_API,
+        json={"code": 0, "msg": "Success", "data": sample_claim_quest_response},
+    )
+    response = client.claim_quest(quest_id=30)
+    assert isinstance(response, ClaimQuestModel)
+    assert response.peel == 100
+    assert response.banana_reward.banana_id == 83
 
-    def mock_get(url, headers):
-        class MockResponse:
-            @staticmethod
-            def json():
-                return {
-                    "data": {
-                        "quest_list": [
-                            {
-                                "quest_id": 1,
-                                "is_claimed": False,
-                                "is_achieved": False,
-                                "quest_name": "mission1",
-                            },
-                            {
-                                "quest_id": 2,
-                                "is_claimed": False,
-                                "is_achieved": True,
-                                "quest_name": "mission2",
-                            },
-                        ]
-                    }
-                }
+
+def test_click(client, requests_mock):
+    requests_mock.post(
+        DO_CLICK_API, json={"code": 0, "msg": "Success", "data": sample_click_response}
+    )
+    response = client.click(click_count=1)
+    assert isinstance(response, ClickRewardModel)
+    assert response.peel == 1
+
+
+def test_get_user_info(client, requests_mock):
+    requests_mock.get(
+        USER_INFO_API,
+        json={"code": 0, "msg": "Success", "data": sample_get_user_info_response},
+    )
+    response = client.get_user_info()
+    assert isinstance(response, UserInfoModel)
+    assert response.user_id == 2104747954
+    assert response.username == "whatdoesmycatsay"
+    assert response.equip_banana.banana_id == 35
