@@ -104,3 +104,21 @@ class UserInfoModel(BaseModel):
     ton_wallet: Optional[str]
     banana_count: int
     speedup_count: int
+
+
+class BananaModel(BaseModel):
+    banana_id: int
+    name: str
+    url: str
+    rarity: int
+    ripeness: str
+    ripeness_sub_level: int
+    daily_peel_limit: int
+    sell_exchange_peel: int
+    sell_exchange_usdt: float
+    exclusive_icon_url: Optional[str]
+    count: int
+
+
+class BananaListModel(BaseModel):
+    banana_list: List[BananaModel]

@@ -2,6 +2,7 @@ import requests
 
 from .constants import (
     ACHIEVE_QUEST_API,
+    BANANA_LIST_API,
     CLAIM_LOTTERY_API,
     CLAIM_QUEST_API,
     CLAIM_QUEST_LOTTERY_API,
@@ -13,6 +14,7 @@ from .constants import (
 )
 from .exceptions import ClaimIncompleteQuestError, UnknownBananaRequestError
 from .models import (
+    BananaListModel,
     ClaimQuestModel,
     ClickRewardModel,
     DoLotteryModel,
@@ -131,3 +133,9 @@ class BananaBotClient:
             "GET", USER_INFO_API, headers=headers, proxies=proxies
         )
         return UserInfoModel(**data)
+
+    def get_banana_list(self, headers=None, proxies=None) -> BananaListModel:
+        data = self._make_request(
+            "GET", BANANA_LIST_API, headers=headers, proxies=proxies
+        )
+        return BananaListModel(**data)

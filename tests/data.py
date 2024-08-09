@@ -112,3 +112,34 @@ sample_get_user_info_response = {
     "banana_count": 7,
     "speedup_count": 0,
 }
+
+sample_get_banana_list_response = {
+    "banana_list": [
+        {
+            "banana_id": 83,
+            "name": "CARV x Banana",
+            "url": "https://public.carv.io/game/banana/carv.webp",
+            "rarity": 0,
+            "ripeness": "Fully Ripe",
+            "ripeness_sub_level": 0,
+            "daily_peel_limit": 750,
+            "sell_exchange_peel": 370,
+            "sell_exchange_usdt": 0.01,
+            "exclusive_icon_url": "https://public.carv.io/game/banana/tasks/rewards/icon_special_carv.png",
+            "count": 1,
+        },
+        {
+            "banana_id": 35,
+            "name": "XRaynana",
+            "url": "https://public.carv.io/game/banana/xraynana.webp",
+            "rarity": 0,
+            "ripeness": "Ripe",
+            "ripeness_sub_level": 0,
+            "daily_peel_limit": 390,
+            "sell_exchange_peel": 130,
+            "sell_exchange_usdt": 0,
+            "exclusive_icon_url": "",
+            "count": 1,
+        },
+    ]
+}
