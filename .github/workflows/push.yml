@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build distribution 📦
+    name: Install Package Dependencies and Run Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -26,3 +26,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install poetry
           poetry install
+      - name: Pytest Unit Tests
+        run: poetry run pytest -sv
