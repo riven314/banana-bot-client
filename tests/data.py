@@ -143,3 +143,10 @@ sample_get_banana_list_response = {
         },
     ]
 }
+
+sample_sell_banana_response = {
+    "sell_got_usdt": 0,
+    "sell_got_peel": 30,
+    "usdt": 0,
+    "peel": 1594,
+}

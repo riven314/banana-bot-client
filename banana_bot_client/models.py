@@ -122,3 +122,10 @@ class BananaModel(BaseModel):
 
 class BananaListModel(BaseModel):
     banana_list: List[BananaModel]
+
+
+class SellBananaResponseModel(BaseModel):
+    sell_got_usdt: float
+    sell_got_peel: int
+    usdt: float
+    peel: int

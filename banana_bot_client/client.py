@@ -11,6 +11,7 @@ from .constants import (
     EQUIP_BANANA_API,
     LOTTERY_INFO_API,
     QUEST_LIST_API,
+    SELL_BANANA_API,
     USER_INFO_API,
 )
 from .exceptions import ClaimIncompleteQuestError, UnknownBananaRequestError
@@ -21,6 +22,7 @@ from .models import (
     DoLotteryModel,
     LotteryInfoModel,
     QuestListModel,
+    SellBananaResponseModel,
     UserInfoModel,
 )
 
@@ -165,3 +167,12 @@ class BananaBotClient:
             json={"bananaId": banana_id},
         )
         return None
+
+    def sell_banana(
+        self, banana_id: int, quantity: int, headers=None, proxies=None
+    ) -> SellBananaResponseModel:
+        data = {"bananaId": banana_id, "sellCount": quantity}
+        response_data = self._make_request(
+            "POST", SELL_BANANA_API, headers=headers, proxies=proxies, json=data
+        )
+        return SellBananaResponseModel(**response_data)

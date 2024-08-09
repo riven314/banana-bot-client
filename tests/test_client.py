@@ -9,6 +9,7 @@ from banana_bot_client.constants import (
     DO_LOTTERY_API,
     LOTTERY_INFO_API,
     QUEST_LIST_API,
+    SELL_BANANA_API,
     USER_INFO_API,
 )
 from banana_bot_client.models import (
@@ -18,6 +19,7 @@ from banana_bot_client.models import (
     DoLotteryModel,
     LotteryInfoModel,
     QuestListModel,
+    SellBananaResponseModel,
     UserInfoModel,
 )
 
@@ -29,6 +31,7 @@ from .data import (
     sample_get_lottery_info_response,
     sample_get_quest_list_response,
     sample_get_user_info_response,
+    sample_sell_banana_response,
 )
 
 
@@ -114,3 +117,18 @@ def test_get_banana_list(client, requests_mock):
     assert len(response.banana_list) == 2
     assert response.banana_list[0].banana_id == 83
     assert response.banana_list[1].name == "XRaynana"
+
+
+def test_sell_banana(client, requests_mock):
+    requests_mock.post(
+        SELL_BANANA_API,
+        json={"code": 0, "msg": "Success", "data": sample_sell_banana_response},
+    )
+
+    response = client.sell_banana(banana_id=83, quantity=1)
+
+    assert isinstance(response, SellBananaResponseModel)
+    assert response.sell_got_usdt == 0
+    assert response.sell_got_peel == 30
+    assert response.usdt == 0
+    assert response.peel == 1594
