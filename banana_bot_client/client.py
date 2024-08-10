@@ -77,7 +77,7 @@ class BananaBotClient:
 
     def do_lottery(self, headers=None, proxies=None) -> DoLotteryModel:
         """
-        claim a banana once the countdown is done
+        harvest and reveal a banana
         """
         data = self._make_request(
             "POST", DO_LOTTERY_API_URL, headers=headers, proxies=proxies
@@ -86,7 +86,7 @@ class BananaBotClient:
 
     def claim_lottery(self, headers=None, proxies=None) -> None:
         """
-        harvest and reveal a banana
+        claim a banana once the countdown is done
         """
         _ = self._make_request(
             "POST",
