@@ -94,7 +94,7 @@ class UserInfoModel(BaseModel):
     user_id: int
     username: str
     peel: int
-    usdt: int
+    usdt: float
     equip_banana_id: int
     equip_banana: EquipBananaModel
     max_click_count: int
