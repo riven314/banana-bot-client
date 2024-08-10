@@ -8,6 +8,7 @@ from .constants import (
     CLAIM_QUEST_LOTTERY_API,
     DO_CLICK_API,
     DO_LOTTERY_API,
+    DO_SPEEDUP_API,
     EQUIP_BANANA_API,
     LOTTERY_INFO_API,
     QUEST_LIST_API,
@@ -23,6 +24,7 @@ from .models import (
     LotteryInfoModel,
     QuestListModel,
     SellBananaResponseModel,
+    SpeedupResponseModel,
     UserInfoModel,
 )
 
@@ -176,3 +178,9 @@ class BananaBotClient:
             "POST", SELL_BANANA_API, headers=headers, proxies=proxies, json=data
         )
         return SellBananaResponseModel(**response_data)
+
+    def do_speedup(self, headers=None, proxies=None) -> SpeedupResponseModel:
+        response_data = self._make_request(
+            "POST", DO_SPEEDUP_API, headers=headers, proxies=proxies
+        )
+        return SpeedupResponseModel(**response_data)

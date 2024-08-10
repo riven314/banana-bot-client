@@ -150,3 +150,13 @@ sample_sell_banana_response = {
     "usdt": 0,
     "peel": 1594,
 }
+
+sample_do_speedup_response = {
+    "speedup_count": 0,
+    "lottery_info": {
+        "remain_lottery_count": 0,
+        "last_countdown_start_time": 1723282987184,
+        "countdown_interval": 480,
+        "countdown_end": False,
+    },
+}

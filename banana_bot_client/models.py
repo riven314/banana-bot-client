@@ -129,3 +129,15 @@ class SellBananaResponseModel(BaseModel):
     sell_got_peel: int
     usdt: float
     peel: int
+
+
+class SpeedupLotteryInfoModel(BaseModel):
+    remain_lottery_count: int
+    last_countdown_start_time: int
+    countdown_interval: int
+    countdown_end: bool
+
+
+class SpeedupResponseModel(BaseModel):
+    speedup_count: int
+    lottery_info: SpeedupLotteryInfoModel

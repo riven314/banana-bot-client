@@ -7,6 +7,7 @@ from banana_bot_client.constants import (
     CLAIM_QUEST_API,
     DO_CLICK_API,
     DO_LOTTERY_API,
+    DO_SPEEDUP_API,
     LOTTERY_INFO_API,
     QUEST_LIST_API,
     SELL_BANANA_API,
@@ -20,6 +21,7 @@ from banana_bot_client.models import (
     LotteryInfoModel,
     QuestListModel,
     SellBananaResponseModel,
+    SpeedupResponseModel,
     UserInfoModel,
 )
 
@@ -27,6 +29,7 @@ from .data import (
     sample_claim_quest_response,
     sample_click_response,
     sample_do_lottery_response,
+    sample_do_speedup_response,
     sample_get_banana_list_response,
     sample_get_lottery_info_response,
     sample_get_quest_list_response,
@@ -132,3 +135,17 @@ def test_sell_banana(client, requests_mock):
     assert response.sell_got_peel == 30
     assert response.usdt == 0
     assert response.peel == 1594
+
+
+def test_do_speedup(client, requests_mock):
+    requests_mock.post(
+        DO_SPEEDUP_API,
+        json={"code": 0, "msg": "Success", "data": sample_do_speedup_response},
+    )
+
+    response = client.do_speedup()
+
+    assert isinstance(response, SpeedupResponseModel)
+    assert response.speedup_count == 0
+    assert response.lottery_info.remain_lottery_count == 0
+    assert response.lottery_info.countdown_end is False
