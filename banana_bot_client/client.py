@@ -1,19 +1,19 @@
 import requests
 
 from .constants import (
-    ACHIEVE_QUEST_API,
-    BANANA_LIST_API,
-    CLAIM_LOTTERY_API,
-    CLAIM_QUEST_API,
-    CLAIM_QUEST_LOTTERY_API,
-    DO_CLICK_API,
-    DO_LOTTERY_API,
-    DO_SPEEDUP_API,
-    EQUIP_BANANA_API,
-    LOTTERY_INFO_API,
-    QUEST_LIST_API,
-    SELL_BANANA_API,
-    USER_INFO_API,
+    ACHIEVE_QUEST_API_URL,
+    BANANA_LIST_API_URL,
+    CLAIM_LOTTERY_API_URL,
+    CLAIM_QUEST_API_URL,
+    CLAIM_QUEST_LOTTERY_API_URL,
+    DO_CLICK_API_URL,
+    DO_LOTTERY_API_URL,
+    DO_SPEEDUP_API_URL,
+    EQUIP_BANANA_API_URL,
+    LOTTERY_INFO_API_URL,
+    QUEST_LIST_API_URL,
+    SELL_BANANA_API_URL,
+    USER_INFO_API_URL,
 )
 from .exceptions import ClaimIncompleteQuestError, UnknownBananaRequestError
 from .models import (
@@ -71,7 +71,7 @@ class BananaBotClient:
 
     def get_lottery_info(self, headers=None, proxies=None) -> LotteryInfoModel:
         data = self._make_request(
-            "GET", LOTTERY_INFO_API, headers=headers, proxies=proxies
+            "GET", LOTTERY_INFO_API_URL, headers=headers, proxies=proxies
         )
         return LotteryInfoModel(**data)
 
@@ -80,7 +80,7 @@ class BananaBotClient:
         claim a banana once the countdown is done
         """
         data = self._make_request(
-            "POST", DO_LOTTERY_API, headers=headers, proxies=proxies
+            "POST", DO_LOTTERY_API_URL, headers=headers, proxies=proxies
         )
         return DoLotteryModel(**data)
 
@@ -90,7 +90,7 @@ class BananaBotClient:
         """
         _ = self._make_request(
             "POST",
-            CLAIM_LOTTERY_API,
+            CLAIM_LOTTERY_API_URL,
             headers=headers,
             proxies=proxies,
             json={"claimLotteryType": 1},
@@ -99,7 +99,7 @@ class BananaBotClient:
 
     def get_quest_list(self, headers=None, proxies=None) -> QuestListModel:
         data = self._make_request(
-            "GET", QUEST_LIST_API, headers=headers, proxies=proxies
+            "GET", QUEST_LIST_API_URL, headers=headers, proxies=proxies
         )
         return QuestListModel(**data)
 
@@ -109,7 +109,7 @@ class BananaBotClient:
         """
         _ = self._make_request(
             "POST",
-            ACHIEVE_QUEST_API,
+            ACHIEVE_QUEST_API_URL,
             headers=headers,
             proxies=proxies,
             json={"quest_id": quest_id},
@@ -122,7 +122,7 @@ class BananaBotClient:
         """
         data = self._make_request(
             "POST",
-            CLAIM_QUEST_API,
+            CLAIM_QUEST_API_URL,
             headers=headers,
             proxies=proxies,
             json={"quest_id": quest_id},
@@ -134,14 +134,14 @@ class BananaBotClient:
         claim additional banana for every completed 3 quests
         """
         _ = self._make_request(
-            "POST", CLAIM_QUEST_LOTTERY_API, headers=headers, proxies=proxies
+            "POST", CLAIM_QUEST_LOTTERY_API_URL, headers=headers, proxies=proxies
         )
         return None  # Since the response data is None, just return None
 
     def click(self, click_count: int, headers=None, proxies=None) -> ClickRewardModel:
         data = self._make_request(
             "POST",
-            DO_CLICK_API,
+            DO_CLICK_API_URL,
             headers=headers,
             proxies=proxies,
             json={"clickCount": click_count},
@@ -150,20 +150,20 @@ class BananaBotClient:
 
     def get_user_info(self, headers=None, proxies=None) -> UserInfoModel:
         data = self._make_request(
-            "GET", USER_INFO_API, headers=headers, proxies=proxies
+            "GET", USER_INFO_API_URL, headers=headers, proxies=proxies
         )
         return UserInfoModel(**data)
 
     def get_banana_list(self, headers=None, proxies=None) -> BananaListModel:
         data = self._make_request(
-            "GET", BANANA_LIST_API, headers=headers, proxies=proxies
+            "GET", BANANA_LIST_API_URL, headers=headers, proxies=proxies
         )
         return BananaListModel(**data)
 
     def equip_banana(self, banana_id: int, headers=None, proxies=None) -> None:
         _ = self._make_request(
             "POST",
-            EQUIP_BANANA_API,
+            EQUIP_BANANA_API_URL,
             headers=headers,
             proxies=proxies,
             json={"bananaId": banana_id},
@@ -175,12 +175,12 @@ class BananaBotClient:
     ) -> SellBananaResponseModel:
         data = {"bananaId": banana_id, "sellCount": quantity}
         response_data = self._make_request(
-            "POST", SELL_BANANA_API, headers=headers, proxies=proxies, json=data
+            "POST", SELL_BANANA_API_URL, headers=headers, proxies=proxies, json=data
         )
         return SellBananaResponseModel(**response_data)
 
     def do_speedup(self, headers=None, proxies=None) -> SpeedupResponseModel:
         response_data = self._make_request(
-            "POST", DO_SPEEDUP_API, headers=headers, proxies=proxies
+            "POST", DO_SPEEDUP_API_URL, headers=headers, proxies=proxies
         )
         return SpeedupResponseModel(**response_data)

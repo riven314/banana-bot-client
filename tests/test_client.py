@@ -3,15 +3,15 @@ import requests_mock
 
 from banana_bot_client.client import BananaBotClient
 from banana_bot_client.constants import (
-    BANANA_LIST_API,
-    CLAIM_QUEST_API,
-    DO_CLICK_API,
-    DO_LOTTERY_API,
-    DO_SPEEDUP_API,
-    LOTTERY_INFO_API,
-    QUEST_LIST_API,
-    SELL_BANANA_API,
-    USER_INFO_API,
+    BANANA_LIST_API_URL,
+    CLAIM_QUEST_API_URL,
+    DO_CLICK_API_URL,
+    DO_LOTTERY_API_URL,
+    DO_SPEEDUP_API_URL,
+    LOTTERY_INFO_API_URL,
+    QUEST_LIST_API_URL,
+    SELL_BANANA_API_URL,
+    USER_INFO_API_URL,
 )
 from banana_bot_client.models import (
     BananaListModel,
@@ -46,7 +46,7 @@ def client():
 
 def test_get_lottery_info(client, requests_mock):
     requests_mock.get(
-        LOTTERY_INFO_API,
+        LOTTERY_INFO_API_URL,
         json={"code": 0, "msg": "Success", "data": sample_get_lottery_info_response},
     )
     response = client.get_lottery_info()
@@ -56,7 +56,7 @@ def test_get_lottery_info(client, requests_mock):
 
 def test_do_lottery(client, requests_mock):
     requests_mock.post(
-        DO_LOTTERY_API,
+        DO_LOTTERY_API_URL,
         json={"code": 0, "msg": "Success", "data": sample_do_lottery_response},
     )
     response = client.do_lottery()
@@ -67,7 +67,7 @@ def test_do_lottery(client, requests_mock):
 
 def test_get_quest_list(client, requests_mock):
     requests_mock.get(
-        QUEST_LIST_API,
+        QUEST_LIST_API_URL,
         json={"code": 0, "msg": "Success", "data": sample_get_quest_list_response},
     )
     response = client.get_quest_list()
@@ -78,7 +78,7 @@ def test_get_quest_list(client, requests_mock):
 
 def test_claim_quest(client, requests_mock):
     requests_mock.post(
-        CLAIM_QUEST_API,
+        CLAIM_QUEST_API_URL,
         json={"code": 0, "msg": "Success", "data": sample_claim_quest_response},
     )
     response = client.claim_quest(quest_id=30)
@@ -89,7 +89,8 @@ def test_claim_quest(client, requests_mock):
 
 def test_click(client, requests_mock):
     requests_mock.post(
-        DO_CLICK_API, json={"code": 0, "msg": "Success", "data": sample_click_response}
+        DO_CLICK_API_URL,
+        json={"code": 0, "msg": "Success", "data": sample_click_response},
     )
     response = client.click(click_count=1)
     assert isinstance(response, ClickRewardModel)
@@ -98,7 +99,7 @@ def test_click(client, requests_mock):
 
 def test_get_user_info(client, requests_mock):
     requests_mock.get(
-        USER_INFO_API,
+        USER_INFO_API_URL,
         json={"code": 0, "msg": "Success", "data": sample_get_user_info_response},
     )
     response = client.get_user_info()
@@ -110,7 +111,7 @@ def test_get_user_info(client, requests_mock):
 
 def test_get_banana_list(client, requests_mock):
     requests_mock.get(
-        BANANA_LIST_API,
+        BANANA_LIST_API_URL,
         json={"code": 0, "msg": "Success", "data": sample_get_banana_list_response},
     )
 
@@ -124,7 +125,7 @@ def test_get_banana_list(client, requests_mock):
 
 def test_sell_banana(client, requests_mock):
     requests_mock.post(
-        SELL_BANANA_API,
+        SELL_BANANA_API_URL,
         json={"code": 0, "msg": "Success", "data": sample_sell_banana_response},
     )
 
@@ -139,7 +140,7 @@ def test_sell_banana(client, requests_mock):
 
 def test_do_speedup(client, requests_mock):
     requests_mock.post(
-        DO_SPEEDUP_API,
+        DO_SPEEDUP_API_URL,
         json={"code": 0, "msg": "Success", "data": sample_do_speedup_response},
     )
 
