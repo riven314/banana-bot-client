@@ -62,6 +62,7 @@ class BananaBotClient:
             headers=request_headers,
             proxies=proxies,
             timeout=20,
+            verify=False if proxies else True,
             **kwargs,
         )
         response.raise_for_status()
