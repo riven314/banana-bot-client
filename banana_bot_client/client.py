@@ -1,8 +1,11 @@
+import time
+
 import requests
 
 from .constants import (
     ACHIEVE_QUEST_API_URL,
     BANANA_LIST_API_URL,
+    CLAIM_ADS_INCOME_API_URL,
     CLAIM_LOTTERY_API_URL,
     CLAIM_QUEST_API_URL,
     CLAIM_QUEST_LOTTERY_API_URL,
@@ -13,11 +16,13 @@ from .constants import (
     LOTTERY_INFO_API_URL,
     QUEST_LIST_API_URL,
     SELL_BANANA_API_URL,
+    USER_ADS_INFO_API_URL,
     USER_INFO_API_URL,
 )
 from .exceptions import ClaimIncompleteQuestError, UnknownBananaRequestError
 from .models import (
     BananaListModel,
+    ClaimAdsIncomeModel,
     ClaimQuestModel,
     ClickRewardModel,
     DoLotteryModel,
@@ -25,6 +30,7 @@ from .models import (
     QuestListModel,
     SellBananaResponseModel,
     SpeedupResponseModel,
+    UserAdsInfoModel,
     UserInfoModel,
 )
 
@@ -48,6 +54,7 @@ class BananaBotClient:
         request_headers = self.default_headers.copy()
         if self.headers:
             request_headers.update(self.headers)
+        request_headers["Request-Time"] = str(int(time.time() * 1000))
 
         response = requests.request(
             method,
@@ -164,3 +171,22 @@ class BananaBotClient:
     def do_speedup(self, proxies=None) -> SpeedupResponseModel:
         response_data = self._make_request("POST", DO_SPEEDUP_API_URL, proxies=proxies)
         return SpeedupResponseModel(**response_data)
+
+    def get_user_ads_info(self, proxies=None) -> UserAdsInfoModel:
+        response_data = self._make_request(
+            "GET", USER_ADS_INFO_API_URL, proxies=proxies
+        )
+        return UserAdsInfoModel(**response_data)
+
+    def claim_ads_income(self, claim_type: int, proxies=None) -> ClaimAdsIncomeModel:
+        """
+        set claim_type = 1 when claiming at do speed up
+        set claim_type = 2 when claiming at do lottery
+        """
+        response_data = self._make_request(
+            "POST",
+            CLAIM_ADS_INCOME_API_URL,
+            proxies=proxies,
+            json={"type": claim_type},
+        )
+        return ClaimAdsIncomeModel(**response_data)

@@ -3,6 +3,30 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
+# related to adsgram
+class BannerAsset(BaseModel):
+    name: str
+    value: str
+
+
+class Tracking(BaseModel):
+    name: str
+    value: str
+
+
+class Banner(BaseModel):
+    bannerAssets: List[BannerAsset]
+    trackings: List[Tracking]
+
+
+class RequestAdsModel(BaseModel):
+    campaignId: int
+    bannerId: int
+    bannerType: str
+    banner: Banner
+
+
+# related to banana game
 class LotteryInfoModel(BaseModel):
     remain_lottery_count: int
     last_countdown_start_time: int
@@ -141,3 +165,22 @@ class SpeedupLotteryInfoModel(BaseModel):
 class SpeedupResponseModel(BaseModel):
     speedup_count: int
     lottery_info: SpeedupLotteryInfoModel
+
+
+class AdsIncomeModel(BaseModel):
+    income: float
+    peels: int
+    speedup: int
+
+
+class ClaimAdsIncomeModel(BaseModel):
+    code: int
+    msg: str
+    data: AdsIncomeModel
+
+
+class UserAdsInfoModel(BaseModel):
+    show_for_peels: bool
+    show_for_speedup: bool
+    peel_award: int
+    usdt_award: float
