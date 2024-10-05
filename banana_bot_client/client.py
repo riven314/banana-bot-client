@@ -19,6 +19,7 @@ from .constants import (
     USER_ADS_INFO_API_URL,
     USER_INFO_API_URL,
 )
+from .encrypt import encrypt_request_time
 from .exceptions import ClaimIncompleteQuestError, UnknownBananaRequestError
 from .models import (
     BananaListModel,
@@ -54,7 +55,7 @@ class BananaBotClient:
         request_headers = self.default_headers.copy()
         if self.headers:
             request_headers.update(self.headers)
-        request_headers["Request-Time"] = str(int(time.time() * 1000))
+        request_headers["Request-Time"] = encrypt_request_time()
 
         response = requests.request(
             method,
